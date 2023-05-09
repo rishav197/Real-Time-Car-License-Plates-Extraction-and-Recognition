@@ -1,7 +1,8 @@
 import cv2
 
 
-harcascade = "model/haarcascade_russian_plate_number.xml"
+# harcascade = "model/haarcascade_russian_plate_number.xml" #especially for russian registration car plates
+harcascade = "model/indian_license_plate.xml" #especially for indian registration car plates
 
 cap = cv2.VideoCapture(0)
 
@@ -9,8 +10,9 @@ cap.set(3, 640) #width
 cap.set(4, 480) #height
 
 
-min_area = 500
-plate_counter = 0
+# min_area = 500 
+min_area = 2000 #for indian registration num plates(2000-5000sq pixels)
+plate_count = 0
 while True:
     success, img = cap.read()
 
@@ -36,10 +38,10 @@ while True:
         break
 
     if(cv2.waitKey(1) & 0xFF==ord('s')): #To capture num plates
-        cv2.imwrite("car_num_plates/num_plate_"+str(plate_counter)+".jpg", img_roi)
+        cv2.imwrite("car_num_plates/num_plate_"+str(plate_count)+".jpg", img_roi)
         cv2.rectangle(img, (0,200), (640,300), (0,255,0), cv2.FILLED)
         cv2.putText(img, "Plate saved", (150,265), cv2.FONT_HERSHEY_COMPLEX_SMALL, 2, (0,0,255), 2)
         cv2.imshow("Results", img)
         cv2.waitKey(500)
-        plate_counter+=1
+        plate_count+=1
             
